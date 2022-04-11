@@ -65,6 +65,7 @@ const Register: React.FC = () => {
                 <IonButton onClick={register}>Register</IonButton>
                 <p>
                     Already have an account? <Link to="/login">Login</Link>
+                    {process.env.NODE_ENV}
                 </p>
             </IonContent>
         </IonPage>
