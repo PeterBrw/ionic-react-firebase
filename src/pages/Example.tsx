@@ -2,18 +2,16 @@ import {
     IonAvatar,
     IonButton,
     IonContent,
-    IonHeader,
-    IonIcon,
-    IonInput,
+    IonHeader, IonIcon, IonInput,
     IonPage,
     IonTitle,
-    IonToolbar,
+    IonToolbar
 } from '@ionic/react'
 import './Home.css'
 
 import { useEffect, useState } from 'react'
 
-const Home: React.FC = () => {
+const Example: React.FC = () => {
     const [input, setInput] = useState<string>('')
 
     useEffect(() => {
@@ -24,17 +22,14 @@ const Home: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Best App Ever!</IonTitle>
+                    <IonTitle>Example Page!</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                <IonButton routerLink="/login">Login</IonButton>
-                <IonButton routerLink="/register" color={'secondary'}>
-                    Register
-                </IonButton>
+                Hello from example!
             </IonContent>
         </IonPage>
     )
 }
 
-export default Home
+export default Example
