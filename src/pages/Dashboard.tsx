@@ -2,8 +2,6 @@ import {
     IonButton,
     IonContent,
     IonHeader,
-    IonIcon,
-    IonInput,
     IonLoading,
     IonPage,
     IonTitle,
@@ -11,9 +9,9 @@ import {
 } from '@ionic/react'
 import './Home.css'
 import { useSelector } from 'react-redux'
-import { logoutUser } from '../filebaseConfig'
+import { db, logoutUser } from '../filebaseConfig'
 import { useHistory } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Dashboard: React.FC = () => {
     const username = useSelector((state: any) => state.user.username)
@@ -26,6 +24,36 @@ const Dashboard: React.FC = () => {
         setLoading(false)
         history.replace('/')
     }
+
+    const fetchCountries = async () => {
+        const response = db.collection('countries ')
+        const data = await response.get()
+        data.docs.forEach((item) => {
+            console.log(item)
+        })
+    }
+
+    const getPostsFromFirebase: any = [];
+
+    useEffect(() => {
+        const subscriber = db
+            .collection("countries")
+            .onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    // getPostsFromFirebase.push({
+                    //     ...doc.data(), //spread operator
+                    //     key: doc.id, // `id` given to us by Firebase
+                    // });
+                    console.log(doc.data())
+                });
+
+                setLoading(false);
+            });
+
+        // return cleanup function
+        return () => subscriber();
+    }, []); //
+
 
     return (
         <IonPage>

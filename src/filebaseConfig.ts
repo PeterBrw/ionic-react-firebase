@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { ENV } from './env'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 
 const config = {
     apiKey: ENV.API_KEY,
@@ -72,3 +73,5 @@ export async function registerUser(username: string, password: string) {
         }
     }
 }
+
+export const db = firebase.firestore()
