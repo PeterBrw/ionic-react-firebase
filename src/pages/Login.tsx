@@ -4,7 +4,7 @@ import {
     IonHeader,
     IonInput, IonLoading,
     IonPage,
-    IonTitle,
+    IonTitle, IonToast,
     IonToolbar
 } from '@ionic/react'
 import './Home.css'
@@ -16,18 +16,26 @@ import { loginUser } from '../filebaseConfig'
 import { toast } from '../toast'
 
 const Login: React.FC = () => {
-    const [busy, setBusy] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    const [showToast, setShowToast] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string>('')
+
     async function login() {
-        setBusy((true))
+        setLoading((true))
         const res = await loginUser(username, password)
-        if (res) {
-            toast('You have loged in!')
+        if (res.successful) {
+            // toast('You have loged in!')
+            setToastMessage(res.message)
+            setShowToast(true)
+        } else {
+            setToastMessage(res.message)
+            setShowToast(true)
         }
-        setBusy(false)
+        setLoading(false)
     }
 
     return (
@@ -37,7 +45,7 @@ const Login: React.FC = () => {
                     <IonTitle>Login</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonLoading message={"Please wait.."} duration={0} isOpen={busy}/>
+            <IonLoading message={"Please wait.."} duration={0} isOpen={loading}/>
             <IonContent className="ion-padding">
                 <IonInput
                     placeholder={'Username'}
@@ -52,6 +60,12 @@ const Login: React.FC = () => {
                 <p>
                     New here? <Link to="/register">Register</Link>
                 </p>
+                <IonToast
+                    isOpen={showToast}
+                    onDidDismiss={() => setShowToast(false)}
+                    message={toastMessage}
+                    duration={2000}
+                />
             </IonContent>
         </IonPage>
     )

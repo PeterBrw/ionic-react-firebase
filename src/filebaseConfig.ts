@@ -1,7 +1,6 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
-import { toast } from './toast'
 import { ENV } from "./env"
 
 const config = {
@@ -23,11 +22,17 @@ export async function loginUser(username: string, password: string) {
 
     try {
         const res = await firebase.auth().signInWithEmailAndPassword(email, password)
-        console.log(res)
-        return true
+
+        return {
+            successful: true,
+            message: 'You have loged in!'
+        }
     } catch (error: any) {
-        toast(error.message)
-        return false
+        // toast(error.message)
+        return {
+            successful: false,
+            message: error.message
+        }
     }
 }
 
@@ -37,10 +42,15 @@ export async function registerUser(username: string, password: string) {
     try {
         const res = await firebase.auth().createUserWithEmailAndPassword(email, password)
 
-        console.log(res)
-        return true
+        return {
+            successful: true,
+            message: 'You have register successfully!'
+        }
     } catch (error: any) {
-        toast(error.message, 4000)
-        return false
+        // toast(error.message, 4000)
+        return {
+            successful: false,
+            message: error.message
+        }
     }
 }
