@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { db, logoutUser } from '../filebaseConfig'
 import { useHistory } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 const Dashboard: React.FC = () => {
     const username = useSelector((state: any) => state.user.username)
@@ -33,18 +34,36 @@ const Dashboard: React.FC = () => {
         })
     }
 
-    const getPostsFromFirebase: any = [];
+    const addDataToFirestore = () => {
+        var docData = {
+            stringExample: "Hello world!",
+            booleanExample: true,
+            numberExample: 3.14159265,
+            arrayExample: [5, true, "hello"],
+            nullExample: null,
+            objectExample: {
+                a: 5,
+                b: {
+                    nested: "foo"
+                }
+            }
+        };
+        db.collection("countries").doc(uuidv4()).set(docData).then(() => {
+            console.log("Document successfully written!");
+        });
+    }
 
     useEffect(() => {
+        const getPostsFromFirebase: any = [];
         const subscriber = db
             .collection("countries")
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    // getPostsFromFirebase.push({
-                    //     ...doc.data(), //spread operator
-                    //     key: doc.id, // `id` given to us by Firebase
-                    // });
-                    console.log(doc.data())
+                    getPostsFromFirebase.push({
+                        ...doc.data(), //spread operator
+                        key: doc.id, // `id` given to us by Firebase
+                    });
+                    console.log(getPostsFromFirebase)
                 });
 
                 setLoading(false);
@@ -66,6 +85,7 @@ const Dashboard: React.FC = () => {
                 <IonLoading message={'Logging out...'} duration={0} isOpen={loading} />
                 <p>Hi {username}</p>
                 <IonButton onClick={logout}>Logout</IonButton>
+                <IonButton onClick={addDataToFirestore}>Add Data to Firestore</IonButton>
             </IonContent>
         </IonPage>
     )
