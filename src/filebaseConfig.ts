@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
-import { ENV } from "./env"
+import { ENV } from './env'
 
 const config = {
     apiKey: ENV.API_KEY,
@@ -19,8 +19,8 @@ firebase.initializeApp(config)
 
 export function getCurrentUser() {
     return new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
-            if(user) {
+        const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
                 resolve(user)
             } else {
                 resolve(null)
@@ -28,6 +28,10 @@ export function getCurrentUser() {
             unsubscribe()
         })
     })
+}
+
+export function logoutUser() {
+    return firebase.auth().signOut()
 }
 
 export async function loginUser(username: string, password: string) {
@@ -38,13 +42,14 @@ export async function loginUser(username: string, password: string) {
 
         return {
             successful: true,
-            message: 'You have loged in!'
+            message: 'You have loged in!',
+            result: res,
         }
     } catch (error: any) {
         // toast(error.message)
         return {
             successful: false,
-            message: error.message
+            message: error.message,
         }
     }
 }
@@ -57,13 +62,13 @@ export async function registerUser(username: string, password: string) {
 
         return {
             successful: true,
-            message: 'You have register successfully!'
+            message: 'You have register successfully!',
         }
     } catch (error: any) {
         // toast(error.message, 4000)
         return {
             successful: false,
-            message: error.message
+            message: error.message,
         }
     }
 }

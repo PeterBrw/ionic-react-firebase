@@ -26,6 +26,8 @@ import Register from './pages/Register'
 import { useEffect, useState } from 'react'
 import { getCurrentUser } from './filebaseConfig'
 import Dashboard from './pages/Dashboard'
+import { useDispatch } from 'react-redux'
+import { setUserState } from './redux/actions'
 
 setupIonicReact()
 
@@ -55,10 +57,12 @@ const RoutingSystem: React.FC = () => {
 
 const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        getCurrentUser().then((user) => {
+        getCurrentUser().then((user: any) => {
             if (user) {
+                dispatch(setUserState(user.email))
                 window.history.replaceState({}, '', '/dashboard')
             } else {
                 window.history.replaceState({}, '', '/')

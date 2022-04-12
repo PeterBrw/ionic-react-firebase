@@ -2,33 +2,40 @@ import {
     IonButton,
     IonContent,
     IonHeader,
-    IonInput, IonLoading,
+    IonInput,
+    IonLoading,
     IonPage,
-    IonTitle, IonToast,
-    IonToolbar
+    IonTitle,
+    IonToast,
+    IonToolbar,
 } from '@ionic/react'
 import './Home.css'
 
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
 import { loginUser } from '../filebaseConfig'
-import { toast } from '../toast'
+import { setUserState } from '../redux/actions'
+import { useDispatch } from 'react-redux'
 
 const Login: React.FC = () => {
+    const dispatch = useDispatch()
+    const history = useHistory()
     const [loading, setLoading] = useState<boolean>(false)
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const [showToast, setShowToast] = useState<boolean>(false);
+    const [showToast, setShowToast] = useState<boolean>(false)
     const [toastMessage, setToastMessage] = useState<string>('')
 
     async function login() {
-        setLoading((true))
-        const res = await loginUser(username, password)
+        setLoading(true)
+        const res: any = await loginUser(username, password)
         if (res.successful) {
             // toast('You have loged in!')
+            dispatch(setUserState(res.result.user.email))
+            history.replace('/dashboard')
             setToastMessage(res.message)
             setShowToast(true)
         } else {
@@ -45,7 +52,7 @@ const Login: React.FC = () => {
                     <IonTitle>Login</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonLoading message={"Please wait.."} duration={0} isOpen={loading}/>
+            <IonLoading message={'Please wait..'} duration={0} isOpen={loading} />
             <IonContent className="ion-padding">
                 <IonInput
                     placeholder={'Username'}
