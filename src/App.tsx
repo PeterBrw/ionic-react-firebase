@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom'
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react'
+import { IonApp, IonRouterOutlet, IonSpinner, setupIonicReact } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import Home from './pages/Home'
 
@@ -23,11 +23,14 @@ import '@ionic/react/css/display.css'
 import './theme/variables.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import { useEffect, useState } from 'react'
+import { getCurrentUser } from './filebaseConfig'
+import Dashboard from './pages/Dashboard'
 
 setupIonicReact()
 
-const App: React.FC = () => (
-    <IonApp>
+const RoutingSystem: React.FC = () => {
+    return (
         <IonReactRouter>
             <IonRouterOutlet>
                 <Route exact path="/home">
@@ -42,9 +45,29 @@ const App: React.FC = () => (
                 <Route exact path="/register">
                     <Register />
                 </Route>
+                <Route exact path="/dashboard">
+                    <Dashboard />
+                </Route>
             </IonRouterOutlet>
         </IonReactRouter>
-    </IonApp>
-)
+    )
+}
+
+const App: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        getCurrentUser().then((user) => {
+            if (user) {
+                window.history.replaceState({}, '', '/dashboard')
+            } else {
+                window.history.replaceState({}, '', '/')
+            }
+            setLoading(false)
+        })
+    }, [])
+
+    return <IonApp>{loading ? <IonSpinner /> : <RoutingSystem />}</IonApp>
+}
 
 export default App

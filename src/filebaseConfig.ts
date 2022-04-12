@@ -17,6 +17,19 @@ console.log(config)
 
 firebase.initializeApp(config)
 
+export function getCurrentUser() {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+            if(user) {
+                resolve(user)
+            } else {
+                resolve(null)
+            }
+            unsubscribe()
+        })
+    })
+}
+
 export async function loginUser(username: string, password: string) {
     const email = `${username}@brwinc.xyz`
 
