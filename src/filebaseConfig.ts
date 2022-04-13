@@ -2,7 +2,6 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { ENV } from './env'
-import { collection, query, where, getDocs } from 'firebase/firestore'
 
 const config = {
     apiKey: ENV.API_KEY,
@@ -13,8 +12,6 @@ const config = {
     appId: ENV.APP_ID,
     measurementId: ENV.MEASUREMENT_ID,
 }
-
-console.log(config)
 
 firebase.initializeApp(config)
 
