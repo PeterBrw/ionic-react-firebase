@@ -34,7 +34,7 @@ const Dashboard: React.FC = () => {
         setLoading(true)
         await logoutUser()
         setLoading(false)
-        history.replace('/')
+        history.replace('/home')
     }
 
     const fetchCountries = async () => {

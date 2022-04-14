@@ -65,7 +65,7 @@ const App: React.FC = () => {
                 dispatch(setUserState(user.email))
                 window.history.replaceState({}, '', '/dashboard')
             } else {
-                window.history.replaceState({}, '', '/')
+                window.history.replaceState({}, '', '/home')
             }
             setLoading(false)
         })
