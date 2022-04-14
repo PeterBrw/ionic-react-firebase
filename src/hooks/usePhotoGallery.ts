@@ -6,6 +6,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { Filesystem, Directory } from '@capacitor/filesystem'
 import { Storage } from '@capacitor/storage'
 import { Capacitor } from '@capacitor/core';
+import { uploadFile } from '../filebaseConfig'
 
 const PHOTO_STORAGE = 'photos';
 export function usePhotoGallery() {
@@ -35,7 +36,7 @@ export function usePhotoGallery() {
 
     const takePhoto = async () => {
         const photo = await Camera.getPhoto({
-            resultType: CameraResultType.Uri,
+            resultType: CameraResultType.DataUrl,
             source: CameraSource.Camera,
             quality: 100
         });
@@ -44,6 +45,7 @@ export function usePhotoGallery() {
         const newPhotos = [savedFileImage, ...photos];
         setPhotos(newPhotos);
         await Storage.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+        await uploadFile(photo.dataUrl!)
     };
 
     const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {

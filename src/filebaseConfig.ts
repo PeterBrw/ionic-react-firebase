@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
+import 'firebase/compat/storage'
 import { ENV } from './env'
 
 const config = {
@@ -70,5 +71,24 @@ export async function registerUser(username: string, password: string) {
         }
     }
 }
+
+export async function uploadFile(img: string) {
+    const root = firebase.storage().ref()
+    const filePath = root.child(`${makeid(5)}.jpg`)
+    console.log(img)
+    await filePath.putString(img, 'data_url')
+}
+
+function makeid(length: number) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
+}
+
 
 export const db = firebase.firestore()
