@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabBut
 import { camera, trash, close } from 'ionicons/icons';
 import { usePhotoGallery, UserPhoto } from '../hooks/usePhotoGallery';
 import { storage } from '../filebaseConfig'
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const Tab2: React.FC = () => {
     const { deletePhoto, photos, takePhoto } = usePhotoGallery();
@@ -13,7 +14,8 @@ const Tab2: React.FC = () => {
         storage.ref().listAll()
             .then((res: any)  => {
                 res.items.forEach((item: any) => {
-                    setData((arr: any) => [...arr, item]);
+                    getDownloadURL(item).then((img: any) => setData([...data, img]))
+
                 })
             })
             .catch((err: any) => {
