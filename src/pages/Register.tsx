@@ -45,7 +45,6 @@ const Register: React.FC = () => {
             setShowToast(true)
         }
         setLoading(false)
-        // develop case where user already exists
     }
 
     return (
