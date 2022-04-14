@@ -3,6 +3,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
 import { ENV } from './env'
+import { exitOutline } from 'ionicons/icons'
 
 const config = {
     apiKey: ENV.API_KEY,
@@ -90,5 +91,6 @@ function makeid(length: number) {
     return result;
 }
 
+export var storage = firebase.storage()
 
 export const db = firebase.firestore()

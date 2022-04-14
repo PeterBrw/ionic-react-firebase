@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon, IonGrid, IonRow, IonCol, IonImg, IonActionSheet } from '@ionic/react';
 import { camera, trash, close } from 'ionicons/icons';
 import { usePhotoGallery, UserPhoto } from '../hooks/usePhotoGallery';
+import { storage } from '../filebaseConfig'
 
 const Tab2: React.FC = () => {
     const { deletePhoto, photos, takePhoto } = usePhotoGallery();
     const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
+    const [data, setData] = useState<any>([])
+
+    useEffect(() => {
+        storage.ref().listAll()
+            .then((res: any)  => {
+                res.items.forEach((item: any) => {
+                    setData((arr: any) => [...arr, item]);
+                })
+            })
+            .catch((err: any) => {
+                alert(err.message);
+            })
+    }, [])
+
+    console.log(data)
 
     return (
         <IonPage>
