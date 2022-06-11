@@ -23,7 +23,7 @@ import '@ionic/react/css/display.css'
 import './theme/variables.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getCurrentUser } from './filebaseConfig'
 import Dashboard from './pages/Dashboard'
 import { useDispatch } from 'react-redux'
@@ -32,6 +32,14 @@ import { setUserState } from './redux/actions'
 setupIonicReact()
 
 const RoutingSystem: React.FC = () => {
+    const [isAuthed, setIsAuthed] = useState<boolean>(false)
+
+    useEffect(() => {
+        if(sessionStorage.getItem('isLogged') === 'true') {
+            setIsAuthed(true)
+        }
+    }, [])
+
     return (
         <IonReactRouter>
             <IonRouterOutlet>
@@ -47,9 +55,14 @@ const RoutingSystem: React.FC = () => {
                 <Route exact path="/register">
                     <Register />
                 </Route>
-                <Route exact path="/dashboard">
-                    <Dashboard />
-                </Route>
+                <Route
+                    exact
+                    path="/dashboard"
+                    render={(props) => {
+                        // @ts-ignore
+                        return isAuthed ? <Dashboard {...props} /> : <Login />;
+                    }}
+                />
             </IonRouterOutlet>
         </IonReactRouter>
     )
@@ -62,10 +75,11 @@ const App: React.FC = () => {
     useEffect(() => {
         getCurrentUser().then((user: any) => {
             if (user) {
+                console.log(user)
                 dispatch(setUserState(user.email))
-                window.history.replaceState({}, '', '/dashboard')
+                // window.history.replaceState({}, '', '/dashboard')
             } else {
-                window.history.replaceState({}, '', '/home')
+                // window.history.replaceState({}, '', '/home')
             }
             setLoading(false)
         })

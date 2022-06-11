@@ -1,14 +1,25 @@
-import './ExploreContainer.css';
+import './ExploreContainer.css'
+import { useState } from 'react'
+import SearchInput from './SearchInput/SearchInput'
+import User from './User/User'
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 const ExploreContainer: React.FC<ContainerProps> = () => {
-  return (
-    <div className="container">
-      <strong>Ready to create an app?</strong>
-      <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    </div>
-  );
-};
+    const [user, setUser] = useState(null)
+    const [login, setLogin] = useState(null)
 
-export default ExploreContainer;
+    const onSubmit = (e: any) => {
+        e.preventDefault()
+        setLogin(user)
+    }
+
+    return (
+        <>
+            <SearchInput setUser={setUser} onSubmit={onSubmit} />
+            {login && <User login={login} />}
+        </>
+    )
+}
+
+export default ExploreContainer

@@ -35,7 +35,8 @@ const Login: React.FC = () => {
         if (res.successful) {
             // toast('You have loged in!')
             dispatch(setUserState(res.result.user.email))
-            history.replace('/dashboard')
+            sessionStorage.setItem('isLogged', 'true');
+            window.location.href = '/dashboard'
             setToastMessage(res.message)
             setShowToast(true)
         } else {

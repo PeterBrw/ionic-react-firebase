@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.6.7",
     "@capacitor/android": "^3.4.3",
     "@capacitor/app": "1.1.1",
     "@capacitor/camera": "^1.3.1",
@@ -25,9 +26,12 @@
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.26.1",
+    "bootstrap": "^5.1.3",
     "firebase": "^9.6.10",
+    "graphql": "^16.5.0",
     "ionicons": "^5.4.0",
     "react": "^17.0.1",
+    "react-bootstrap": "^2.4.0",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.8",
     "react-router": "^5.2.0",
@@ -51,7 +55,7 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start": "src/env.js react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
     "eject": "react-scripts eject"
