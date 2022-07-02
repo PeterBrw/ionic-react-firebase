@@ -41,7 +41,7 @@ const RepoList: React.FC<{ repos: any }> = ({ repos }) => {
                                         setSelectedRepoIndex(index)
                                     }}
                                 >
-                                    Unread
+                                    Details
                                 </IonItemOption>
                             </IonItemOptions>
                             <IonModal isOpen={isOpen}>

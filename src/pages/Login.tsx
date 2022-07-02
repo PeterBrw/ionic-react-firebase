@@ -1,5 +1,5 @@
 import {
-    IonButton,
+    IonButton, IonButtons,
     IonContent,
     IonHeader,
     IonInput,
@@ -11,12 +11,13 @@ import {
 } from '@ionic/react'
 import './Home.css'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
-import { loginUser } from '../filebaseConfig'
+import { loginUser } from '../firebaseConfig'
 import { setUserState } from '../redux/actions'
 import { useDispatch } from 'react-redux'
+import Menu from "../components/Menu/Menu";
 
 const Login: React.FC = () => {
     const dispatch = useDispatch()
@@ -51,6 +52,9 @@ const Login: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Login</IonTitle>
+                    <IonButtons slot="end">
+                        <Menu />
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonLoading message={'Please wait..'} duration={0} isOpen={loading} />

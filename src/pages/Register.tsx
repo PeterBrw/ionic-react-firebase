@@ -1,5 +1,5 @@
 import {
-    IonButton,
+    IonButton, IonButtons,
     IonContent,
     IonHeader,
     IonInput, IonLoading,
@@ -9,9 +9,10 @@ import {
 } from '@ionic/react'
 import './Home.css'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { registerUser } from '../filebaseConfig'
+import { registerUser } from '../firebaseConfig'
+import Menu from "../components/Menu/Menu";
 
 const Register: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -52,6 +53,9 @@ const Register: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Register</IonTitle>
+                    <IonButtons slot="end">
+                        <Menu />
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonLoading message={"Please wait.."} duration={0} isOpen={loading}/>

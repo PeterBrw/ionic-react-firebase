@@ -27,14 +27,18 @@ const USER = gql`
 `
 
 const User: React.FC<{ login: any }> = ({ login }) => {
+    // @ts-ignore
+    const numberOfRepos = parseInt(localStorage.getItem('repos'))
     const [showLoading, setShowLoading] = useState(true)
     const { data, loading, error } = useQuery(USER, {
         variables: {
             login: login,
-            first: 100,
-            languagesFirst2: 5,
+            first: numberOfRepos,
+            languagesFirst2: 10,
         },
     })
+
+    console.log(data, login, numberOfRepos)
 
     if (loading)
         return (
@@ -79,7 +83,9 @@ const User: React.FC<{ login: any }> = ({ login }) => {
                             Number of repositories: &nbsp; {data?.user?.repositories?.totalCount}
                         </IonItem>
                     </IonCard>
-                    <IonButton expand="full" onClick={() => window.location.href = '/repos'} >See repositories</IonButton>
+                    <IonButton expand="full" onClick={() => (window.location.href = '/repos')}>
+                        See repositories
+                    </IonButton>
                 </>
             )}
         </>

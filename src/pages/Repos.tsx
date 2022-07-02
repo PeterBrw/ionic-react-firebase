@@ -1,7 +1,16 @@
 import React, { useState } from 'react'
-import { IonContent, IonHeader, IonLoading, IonPage, IonTitle, IonToolbar } from '@ionic/react'
+import {
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonLoading,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+} from '@ionic/react'
 import RepoList from '../components/RepoList/RepoList'
 import { gql, useQuery } from '@apollo/client'
+import Menu from '../components/Menu/Menu'
 
 const REPOS = gql`
     query Repos($login: String!, $first: Int!, $languages: Int!) {
@@ -29,10 +38,12 @@ export const Repos: React.FC = () => {
 
     // @ts-ignore
     const login = JSON.parse(localStorage.getItem('user'))
+    // @ts-ignore
+    const numberOfRepos = parseInt(localStorage.getItem('repos'))
     const { data, loading, error } = useQuery(REPOS, {
         variables: {
-            login: login,
-            first: 100,
+            login: login || 'davglass',
+            first: numberOfRepos,
             languages: 20,
         },
     })
@@ -54,6 +65,9 @@ export const Repos: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>User Repositories</IonTitle>
+                    <IonButtons slot="end">
+                        <Menu />
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">

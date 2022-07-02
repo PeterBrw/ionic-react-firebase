@@ -24,12 +24,14 @@ import './theme/variables.css'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import React, { useEffect, useState } from 'react'
-import { getCurrentUser } from './filebaseConfig'
+import { getCurrentUser } from './firebaseConfig'
 import { useDispatch } from 'react-redux'
 import { setUserState } from './redux/actions'
-import { Example } from './pages/Example'
 import Search from './pages/Search'
 import { Repos } from './pages/Repos'
+import SearchOrganization from './pages/SearchOrganization'
+import Settings from './pages/Settings'
+import SideMenu from './components/SideMenu/SideMenu'
 
 setupIonicReact()
 
@@ -44,7 +46,8 @@ const RoutingSystem: React.FC = () => {
 
     return (
         <IonReactRouter>
-            <IonRouterOutlet>
+            <SideMenu />
+            <IonRouterOutlet id="main">
                 <Route exact path="/home">
                     <Home />
                 </Route>
@@ -65,12 +68,30 @@ const RoutingSystem: React.FC = () => {
                         return isAuthed ? <Search {...props} /> : <Login />
                     }}
                 />
-                <Route exact path="/example">
-                    <Example />
-                </Route>
-                <Route exact path="/repos">
-                    <Repos />
-                </Route>
+                <Route
+                    exact
+                    path="/repos"
+                    render={(props) => {
+                        // @ts-ignore
+                        return isAuthed ? <Repos {...props} /> : <Login />
+                    }}
+                />
+                <Route
+                    exact
+                    path="/search-organization"
+                    render={(props) => {
+                        // @ts-ignore
+                        return isAuthed ? <SearchOrganization {...props} /> : <Login />
+                    }}
+                />
+                <Route
+                    exact
+                    path="/settings"
+                    render={(props) => {
+                        // @ts-ignore
+                        return isAuthed ? <Settings {...props} /> : <Login />
+                    }}
+                />
             </IonRouterOutlet>
         </IonReactRouter>
     )
@@ -90,6 +111,9 @@ const App: React.FC = () => {
             }
             setLoading(false)
         })
+        if (!localStorage.getItem('repos')) {
+            localStorage.setItem('repos', JSON.stringify(100))
+        }
     }, [])
 
     return <IonApp>{loading ? <IonSpinner /> : <RoutingSystem />}</IonApp>
