@@ -25,9 +25,11 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import React, { useEffect, useState } from 'react'
 import { getCurrentUser } from './filebaseConfig'
-import Dashboard from './pages/Dashboard'
 import { useDispatch } from 'react-redux'
 import { setUserState } from './redux/actions'
+import { Example } from './pages/Example'
+import Search from './pages/Search'
+import { Repos } from './pages/Repos'
 
 setupIonicReact()
 
@@ -35,7 +37,7 @@ const RoutingSystem: React.FC = () => {
     const [isAuthed, setIsAuthed] = useState<boolean>(false)
 
     useEffect(() => {
-        if(sessionStorage.getItem('isLogged') === 'true') {
+        if (sessionStorage.getItem('isLogged') === 'true') {
             setIsAuthed(true)
         }
     }, [])
@@ -57,12 +59,18 @@ const RoutingSystem: React.FC = () => {
                 </Route>
                 <Route
                     exact
-                    path="/dashboard"
+                    path="/search"
                     render={(props) => {
                         // @ts-ignore
-                        return isAuthed ? <Dashboard {...props} /> : <Login />;
+                        return isAuthed ? <Search {...props} /> : <Login />
                     }}
                 />
+                <Route exact path="/example">
+                    <Example />
+                </Route>
+                <Route exact path="/repos">
+                    <Repos />
+                </Route>
             </IonRouterOutlet>
         </IonReactRouter>
     )
@@ -75,7 +83,6 @@ const App: React.FC = () => {
     useEffect(() => {
         getCurrentUser().then((user: any) => {
             if (user) {
-                console.log(user)
                 dispatch(setUserState(user.email))
                 // window.history.replaceState({}, '', '/dashboard')
             } else {

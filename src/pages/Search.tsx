@@ -1,9 +1,8 @@
 import React from 'react'
 import ExploreContainer from '../components/ExploreContainer'
 import { IonHeader, IonTitle, IonToolbar, IonPage, IonContent } from '@ionic/react'
-import RepoList from "../components/RepoList/RepoList";
 
-const Tab2: React.FC = () => {
+const Search: React.FC = () => {
     return (
         <>
             <IonPage>
@@ -14,11 +13,10 @@ const Tab2: React.FC = () => {
                 </IonHeader>
                 <IonContent className="ion-padding">
                     <ExploreContainer />
-                    <RepoList />
                 </IonContent>
             </IonPage>
         </>
     )
 }
 
-export default Tab2
+export default Search
